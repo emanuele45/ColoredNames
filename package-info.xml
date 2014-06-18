@@ -8,12 +8,12 @@
  * @author  emanuele
  * @license BSD http://opensource.org/licenses/BSD-3-Clause
  *
- * @version 0.0.1
+ * @version 0.0.2
  */
 	]]></license>
 	<id>emanuele:colored_names</id>
 	<name>Colored Names</name>
-	<version>0.0.1</version>
+	<version>0.0.2</version>
 	<type>modification</type>
 	<install for="1.0 RC 1 - 1.0.99">
 		<require-file name="ColoredNames.class.php" destination="SUBSDIR" />

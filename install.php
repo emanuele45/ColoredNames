@@ -5,7 +5,7 @@
  * @author  emanuele
  * @license BSD http://opensource.org/licenses/BSD-3-Clause
  *
- * @version 0.0.1
+ * @version 0.0.2
  */
 
 global $hooks, $mod_name;
@@ -90,10 +90,9 @@ function setup_hooks ()
 	$integration_function = empty($context['uninstalling']) ? 'add_integration_function' : 'remove_integration_function';
 	foreach ($hooks as $hook)
 		$integration_function($hook[0], $hook[1], $hook[2]);
-log_error('entrato');
+
 	if (empty($context['uninstalling']))
 	{
-	log_error('install');
 		updateSettings(array('prefix_style' => '<span class="topicprefix">{prefix_link}</span>&nbsp;'));
 
 		$db_table = db_table();
@@ -118,16 +117,6 @@ log_error('entrato');
 	else
 	{
 		$db = database();
-	log_error($db->quote('
-			UPDATE {db_prefix}members
-			SET real_name = CASE WHEN plain_real_name != {string:empty}
-					THEN plain_real_name
-					ELSE real_name
-					END',
-			array(
-				'empty' => '',
-			)
-		));
 		$db->query('', '
 			UPDATE {db_prefix}members
 			SET real_name = CASE WHEN plain_real_name != {string:empty}
