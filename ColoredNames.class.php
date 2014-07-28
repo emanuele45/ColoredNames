@@ -148,6 +148,68 @@ class ColoredNames
 		return $template;
 	}
 
+	public static function action_personalmessage_after()
+	{
+		global $context;
+
+		if (!empty($context['to_value']))
+		{
+			$to_value = explode('&quot;, &quot;', substr($context['to_value'], 6, -6));
+			foreach ($to_value as $key => $val)
+				$to_value[$key] = self::cleanQuote(Util::htmlspecialchars($val));
+
+			$context['to_value'] = '&quot;' . implode('&quot;, &quot;', $to_value) . '&quot;';
+		}
+
+		self::cleanGeneralGuesses();
+	}
+
+	public static function action_post_after()
+	{
+		global $context;
+
+		if (!empty($context['current_action']) && $context['current_action'] == 'quotefast')
+		{
+			if (isset($context['message']['body']))
+				$base = 'message';
+			else
+				$base = 'quote';
+
+			foreach ($context[$base] as $key => $val)
+				$context[$base][$key] = self::cleanQuote($context[$base][$key]);
+
+			self::cleanGeneralGuesses();
+		}
+		else
+		{
+			self::cleanGeneralGuesses();
+		}
+	}
+
+	private static function cleanGeneralGuesses()
+	{
+		global $context;
+
+		if (!empty($context['message']))
+			$context['message'] = self::cleanQuote($context['message']);
+
+		if (!empty($context['controls']['richedit']))
+		{
+			foreach ($context['controls']['richedit'] as $key => $val)
+			{
+				$context['controls']['richedit'][$key]['value'] = self::cleanQuote($val['value']);
+			}
+		}
+	}
+
+	/**
+	 * This function can be used by anyone to clean up a specific field.
+	 */
+	public static function cleanQuote($msg)
+	{
+		return preg_replace('~\[quote(.*?)author=&lt;span [^\]]*?&gt;([^\/]*?)&lt;/span&gt;~i', '[quote$1author=$2',  $msg);
+	}
+
 	private static function setName(&$profile_vars, $memID)
 	{
 		global $user_profile;

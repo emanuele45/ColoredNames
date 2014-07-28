@@ -35,6 +35,16 @@ $hooks = array(
 		'ColoredNames::profile_save',
 		'SUBSDIR/ColoredNames.class.php',
 	),
+	array(
+		'integrate_action_post_after',
+		'ColoredNames::action_post_after',
+		'SUBSDIR/ColoredNames.class.php',
+	),
+	array(
+		'integrate_action_personalmessage_after',
+		'ColoredNames::action_personalmessage_after',
+		'SUBSDIR/ColoredNames.class.php',
+	),
 );
 $mod_name = 'Colored Names';
 
